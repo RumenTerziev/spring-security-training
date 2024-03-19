@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrdersController {
 
     @GetMapping("/basic")
-    public String getBasics() {
-        return "This should be basic login!";
+    public String getBasics(Authentication authentication) {
+        return "Hi %s - This should be a private page with BASIC authentication!".formatted(authentication.getName());
     }
 
     @GetMapping("/header")
     public String getHeaders(Authentication authentication) {
-        return "Hi %s - This should be a private page with custom header login!".formatted(authentication.getPrincipal());
+        return "Hi %s - This should be a private page with custom HEADER authentication!".formatted(authentication.getName());
     }
 }
