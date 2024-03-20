@@ -29,7 +29,7 @@ public class BookstoreBasicAuthProvider implements AuthenticationProvider {
         final String name = authentication.getName();
         final String password = authentication.getCredentials().toString();
         UserDetails userDetails = bookstoreUserDetailsService.loadUserByUsername(authentication.getName());
-        if (userDetails == null || !userDetails.getPassword().equals(password)) {
+        if (userDetails == null || !bookstoreUserDetailsService.matches(password, userDetails.getPassword())) {
             return null;
         }
         return passwordAuthenticationToken(name, password);
