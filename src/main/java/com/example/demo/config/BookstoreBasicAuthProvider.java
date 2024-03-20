@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,9 @@ public class BookstoreBasicAuthProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        if (authentication instanceof BookstoreUser) {
+            return authentication;
+        }
         final String name = authentication.getName();
         final String password = authentication.getCredentials().toString();
         UserDetails userDetails = bookstoreUserDetailsService.loadUserByUsername(authentication.getName());
@@ -34,7 +38,7 @@ public class BookstoreBasicAuthProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+        return authentication.equals(UsernamePasswordAuthenticationToken.class) || authentication.equals(BookstoreUser.class);
     }
 
     private static UsernamePasswordAuthenticationToken passwordAuthenticationToken(String name, String password) {

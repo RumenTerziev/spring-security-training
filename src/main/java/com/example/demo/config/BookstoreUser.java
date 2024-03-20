@@ -7,7 +7,6 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import java.util.Collection;
 
 import static com.example.demo.config.CustomHeaderFilter.REQUIRED_HEADER_NAME_VALUE;
-import static com.example.demo.config.CustomHeaderFilter.REQUIRED_HEADER_PASS_VALUE;
 
 public class BookstoreUser implements Authentication {
 
@@ -18,7 +17,7 @@ public class BookstoreUser implements Authentication {
 
     @Override
     public Object getCredentials() {
-        return REQUIRED_HEADER_PASS_VALUE;
+        return null;
     }
 
     @Override
