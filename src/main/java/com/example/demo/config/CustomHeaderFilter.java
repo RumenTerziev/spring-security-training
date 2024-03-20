@@ -17,7 +17,7 @@ public class CustomHeaderFilter extends OncePerRequestFilter {
     private static final String REQUIRED_HEADER_NAME = "AUTH_NAME";
     static final String REQUIRED_HEADER_NAME_VALUE = "RUMEN";
     private static final String REQUIRED_HEADER_PASS = "AUTH_PASS";
-    private static final String REQUIRED_HEADER_PASS_VALUE = "TOPSECRET";
+    static final String REQUIRED_HEADER_PASS_VALUE = "TOPSECRET";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
