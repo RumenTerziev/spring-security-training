@@ -40,7 +40,7 @@ public class SecurityConfig {
                         .maximumSessions(1))
                 .addFilterBefore(customHeaderFilter(), UsernamePasswordAuthenticationFilter.class)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .authenticationProvider(bookstoreBasicAuthProvider)
+                .authenticationManager(authManager())
                 .httpBasic(withDefaults())
                 .build();
     }
