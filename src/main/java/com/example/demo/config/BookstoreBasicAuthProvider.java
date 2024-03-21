@@ -8,6 +8,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -23,8 +25,9 @@ public class BookstoreBasicAuthProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        if (authentication instanceof BookstoreUser) {
-            return authentication;
+        Authentication contextAuth = SecurityContextHolder.getContext().getAuthentication();
+        if (contextAuth != null) {
+            return contextAuth;
         }
         final String name = authentication.getName();
         final String password = authentication.getCredentials().toString();

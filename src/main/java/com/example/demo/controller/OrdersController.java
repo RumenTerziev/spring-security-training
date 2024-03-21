@@ -11,11 +11,20 @@ public class OrdersController {
 
     @GetMapping("/basic")
     public String getBasics(Authentication authentication) {
-        return "Hi %s - This should be a private page with BASIC authentication!".formatted(authentication.getName());
+        return "Hi %s - This should be a private page with BASIC authentication!".formatted(getName(authentication));
     }
 
     @GetMapping("/header")
     public String getHeaders(Authentication authentication) {
-        return "Hi %s - This should be a private page with custom HEADER authentication!".formatted(authentication.getName());
+        return "Hi %s - This should be a private page with custom HEADER authentication!".formatted(getName(authentication));
+    }
+
+    @GetMapping("/header-new")
+    public String newHeader(Authentication authentication) {
+        return "Hi %s - This should be a private page with custom PRE-AUTHENTICATED HEADER authentication!".formatted(getName(authentication));
+    }
+
+    private String getName(Authentication authentication) {
+        return authentication == null ? "Anonymous" : authentication.getName();
     }
 }
