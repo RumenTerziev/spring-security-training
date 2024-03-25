@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.domain.model.BokstoreUserDetails;
+import com.example.demo.domain.model.BookstoreUserDetails;
 import com.example.demo.repository.BookstoreUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +28,7 @@ public class BookstoreUserDetailsService implements UserDetailsService {
     }
 
     public void initializeUsers() {
-        bookstoreUserRepository.save(new BokstoreUserDetails(FIRST_USER_USERNAME, passwordEncoder.encode(FIRST_USER_PASSWORD)));
+        bookstoreUserRepository.save(new BookstoreUserDetails(FIRST_USER_USERNAME, passwordEncoder.encode(FIRST_USER_PASSWORD)));
     }
 
     public boolean matches(String rawPassword, String encodedPassword) {

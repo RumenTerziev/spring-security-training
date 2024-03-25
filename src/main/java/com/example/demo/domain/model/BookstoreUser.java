@@ -1,14 +1,25 @@
-package com.example.demo.config;
+package com.example.demo.domain.model;
 
+import com.example.demo.service.BookstoreUserDetailsService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
 import static com.example.demo.config.CustomHeaderFilter.REQUIRED_HEADER_NAME_VALUE;
 
 public class BookstoreUser implements Authentication {
+
+    private final String name;
+
+    private final UserDetails details;
+
+    public BookstoreUser(String name, UserDetails details) {
+        this.name = name;
+        this.details = details;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -22,7 +33,7 @@ public class BookstoreUser implements Authentication {
 
     @Override
     public Object getDetails() {
-        return null;
+        return details;
     }
 
     @Override
@@ -42,6 +53,6 @@ public class BookstoreUser implements Authentication {
 
     @Override
     public String getName() {
-        return REQUIRED_HEADER_NAME_VALUE;
+        return name;
     }
 }

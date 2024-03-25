@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import java.util.Collections;
+import java.util.Arrays;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.IF_REQUIRED;
@@ -26,6 +26,8 @@ public class SecurityConfig {
 
 
     private final BookstoreBasicAuthProvider bookstoreBasicAuthProvider;
+
+    private final CustomPreAuthenticatedAuthenticationProvider customPreAuthenticatedAuthenticationProvider;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -42,7 +44,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(IF_REQUIRED)
                         .maximumSessions(1))
                 .addFilterBefore(customHeaderFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(requestHeaderAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(requestHeaderAuthenticationFilter(), CustomHeaderFilter.class)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authenticationManager(authManager())
                 .httpBasic(withDefaults())
@@ -56,14 +58,12 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authManager() {
-        return new ProviderManager(Collections.singletonList(bookstoreBasicAuthProvider));
+        return new ProviderManager(Arrays.asList(bookstoreBasicAuthProvider, customPreAuthenticatedAuthenticationProvider));
     }
 
     @Bean
     public RequestHeaderAuthenticationFilter requestHeaderAuthenticationFilter() {
         RequestHeaderAuthenticationFilter filter = new RequestHeaderAuthenticationFilter();
-        filter.setPrincipalRequestHeader("AUTH_KEY");
-        filter.setCredentialsRequestHeader("RUMBATA");
         filter.setExceptionIfHeaderMissing(true);
         filter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/orders/header-new"));
         filter.setAuthenticationManager(authManager());

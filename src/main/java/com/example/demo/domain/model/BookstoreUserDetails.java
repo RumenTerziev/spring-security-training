@@ -18,7 +18,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "user_details")
 @NoArgsConstructor
-public class BokstoreUserDetails implements UserDetails {
+public class BookstoreUserDetails implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -28,7 +28,11 @@ public class BokstoreUserDetails implements UserDetails {
 
     private String password;
 
-    public BokstoreUserDetails(String username, String password) {
+    public BookstoreUserDetails(String username) {
+        this.username = username;
+    }
+
+    public BookstoreUserDetails(String username, String password) {
         this.username = username;
         this.password = password;
     }
